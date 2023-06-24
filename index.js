@@ -1,87 +1,77 @@
+// taken variables
+const inputTodo = document.querySelector("#inputTodo");
+const todoSaveButton = document.querySelector("#save");
+const todoLists = document.querySelector("#lists");
+const messageElement = document.querySelector("#message");
+const todoForm = document.querySelector(".todo-form");
 
-//taken variables
-const inputTodo = document.querySelector ("#inputTodo");
-const todoSaveButton = document.querySelector ("#save");
-const todoLists = document.querySelector ("#lists");
-const messegeElement = document.querySelector ("#message");
-const todoForm = document.querySelector (".todo-form");
-
-
-//getTodosFromLocalStorage
+// getTodosFromLocalStorage
 const getTodosFromLocalStorage = () => {
-    return localStorage.getItem("mytodos")
-      ? JSON.parse(localStorage.getItem("mytodos"))
-      : [];
-  };
+  return localStorage.getItem("mytodos")
+    ? JSON.parse(localStorage.getItem("mytodos"))
+    : [];
+};
 
-
-//addtodo
+// addTodo
 const addTodo = (event) => {
-    event.preventDefault();
-const todoValue = inputTodo.value;
+  event.preventDefault();
+  const todoValue = inputTodo.value;
 
-//unique ID
-const todoId = Date.now().toString();
+  // unique ID
+  const todoId = Date.now().toString();
 
-createTodo(todoId,todoValue);
-showMessege("Todo is Added!","success");
+  createTodo(todoId, todoValue);
+  showMessage("Todo is Added!", "success");
 
+  let todos = getTodosFromLocalStorage();
+  todos.push({ todoId, todoValue });
+  localStorage.setItem("mytodos", JSON.stringify(todos));
 
-const todos = getTodosFromLocalStorage();
-todos.push(todoId,todoValue);
-localStorage.setItem("mytodos", JSON.stringify(todos));
-
-inputTodo.value="";
-
-};
-   
-//create Todo
-const createTodo=(todoId,todoValue) => {
-    const todoElement = document.createElement("li");
-    todoElement.id=todoId;
-    todoElement.innerHTML= `<span class="li-style"> ${todoValue} <button class="dlt-btn" id="deleteButton" >
-    <i class="fa fa-trash"></i> </button> </span>`;
-
-    todoLists.appendChild(todoElement);
-
-    const deleteBut = todoElement.querySelector("#deleteButton");
-    
-    deleteBut.addEventListener("click", deleteTodo);
+  inputTodo.value = "";
 };
 
+// createTodo
+const createTodo = (todoId, todoValue) => {
+  const todoElement = document.createElement("li");
+  todoElement.id = todoId;
+  todoElement.innerHTML = `<span class="li-style">${todoValue}<button class="dlt-btn" id="deleteButton"><i class="fa fa-trash"></i></button></span>`;
 
-//ShowMessege
-const showMessege = (text,status) => {
-    messegeElement.textContent = text;
-    messegeElement.classList.add(`bg-${status}`);
-    setTimeout(()=> {
-        messegeElement.textContent="";
-        messegeElement.classList.remove(`bg-${status}`);
-    },1000);
+  todoLists.appendChild(todoElement);
+
+  const deleteBtn = todoElement.querySelector("#deleteButton");
+
+  deleteBtn.addEventListener("click", deleteTodo);
 };
 
-//delete messege
+// showMessage
+const showMessage = (text, status) => {
+  messageElement.textContent = text;
+  messageElement.classList.add(`bg-${status}`);
+  setTimeout(() => {
+    messageElement.textContent = "";
+    messageElement.classList.remove(`bg-${status}`);
+  }, 1000);
+};
 
-const deleteTodo=(event)=> {
-    const selectedTodo = event.target.parentElement.parentElement;
-    todoLists.removeChild(selectedTodo);
+// deleteTodo
+const deleteTodo = (event) => {
+  const selectedTodo = event.target.parentElement.parentElement;
+  todoLists.removeChild(selectedTodo);
 
-    showMessege("Todo is Deleted!", "deleted");
+  showMessage("Todo is Deleted!", "deleted");
 
-    let todos = getTodosFromLocalStorage();
-    todos.filter((todo) => todo.todoId !== selectedTodo.id);
-    localStorage.setItem("mytodos", JSON.stringify(todos));
-    
-}; 
+  let todos = getTodosFromLocalStorage();
+  todos = todos.filter((todo) => todo.todoId !== selectedTodo.id);
+  localStorage.setItem("mytodos", JSON.stringify(todos));
+};
 
-//load Todo
-const loadTodos =()=> {
-    const todos = getTodosFromLocalStorage();
-    todos.map((todo)=> createTodo(todo.todoId,todo.todoValue));
-}
+// loadTodos
+const loadTodos = () => {
+  const todos = getTodosFromLocalStorage();
+  todos.map((todo) => createTodo(todo.todoId, todo.todoValue));
+};
 
-//adding Listeners
+// adding Listeners
 todoForm.addEventListener("submit", addTodo);
 
-window.addEventListener("DOMContentLoaded",loadTodos);
-
+window.addEventListener("DOMContentLoaded", loadTodos);
