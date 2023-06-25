@@ -1,5 +1,6 @@
 // taken variables
 const inputTodo = document.querySelector("#inputTodo");
+const inputTodoDate = document.querySelector("#inputTodoDate");
 const todoSaveButton = document.querySelector("#save");
 const todoLists = document.querySelector("#lists");
 const messageElement = document.querySelector("#message");
@@ -15,7 +16,7 @@ const getTodosFromLocalStorage = () => {
 // addTodo
 const addTodo = (event) => {
   event.preventDefault();
-  const todoValue = inputTodo.value;
+  const todoValue = inputTodo.value + ". Time :"+ inputTodoDate.value;
 
   // unique ID
   const todoId = Date.now().toString();
@@ -34,7 +35,7 @@ const addTodo = (event) => {
 const createTodo = (todoId, todoValue) => {
   const todoElement = document.createElement("li");
   todoElement.id = todoId;
-  todoElement.innerHTML = `<span class="li-style">${todoValue}<button class="dlt-btn" id="deleteButton"><i class="fa fa-trash"></i></button></span>`;
+  todoElement.innerHTML = `<span class="li-style">${inputTodo.value} <div>Time: ${inputTodoDate.value}</div><button class="dlt-btn" id="deleteButton"><i class="fa fa-trash"></i></button></span>`;
 
   todoLists.appendChild(todoElement);
 
