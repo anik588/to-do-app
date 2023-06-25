@@ -51,7 +51,7 @@
     padding: 5px;
     border-radius: 0.3rem;
     border-color: red;
-    width: 80%;
+    width: 40%;
 }
 .li-style{
     background-color: #02171a;
@@ -93,3 +93,4 @@ ul{
 .dlt-btn:hover{
     background-color: yellow;
 }
+
